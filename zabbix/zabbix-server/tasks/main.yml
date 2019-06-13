@@ -1,0 +1,205 @@
+---
+- name: "Installing Zabbix packages and more"
+  yum: state=installed name={{ item }}
+  with_items:
+    - zabbix-release
+    - zabbix-server-mysql
+    - zabbix-web-mysql
+    - zabbix-agent
+    - wget
+    - unzip
+    - policycoreutils-python
+
+- name: Set permissive mode for SELinux
+  selinux:
+    policy: targeted
+    state: permissive
+
+- name: Install packages
+  yum:
+    name: "{{ item }}"
+    state: present
+  with_items: "{{ mariadb_packages }}"
+
+- name: Setup custom log location
+  file:
+    path: "/var/log/mysqld.log"
+    mode: "0644"
+    owner: "mysql"
+    group: "mysql"
+    state: "touch"
+
+- name: Ensure service starts initially
+  service:
+    name: "{{ mariadb_service }}"
+    state: started
+    enabled: yes
+
+- name: Update root password for localhost
+  mysql_user:
+    name: "root"
+    host: "localhost"
+    password: "{{ mysql_root_password }}"
+    state: "present"
+    check_implicit_admin: "yes"
+    login_user: "root"
+    login_host: "localhost"
+    login_password: "{{ mysql_root_password }}"
+  when: ansible_hostname != 'localhost'
+
+- name: Update root password for all hosts
+  mysql_user:
+    name: root
+    host: "{{ item }}"
+    password: "{{ mysql_root_password }}"
+    state: present
+    login_user: "root"
+    login_host: "localhost"
+    login_password: "{{ mysql_root_password }}"
+  with_items:
+    - "::1"
+    - "127.0.0.1"
+    - "{{ ansible_fqdn }}"
+    - "{{ ansible_hostname }}"
+  when: ansible_hostname != 'localhost'
+
+- name: Remove anonymous users
+  mysql_user:
+    name: ""
+    host: "{{ item }}"
+    state: absent
+    login_user: "root"
+    login_password: "{{ mysql_root_password }}"
+  with_items:
+    - "localhost"
+    - "{{ ansible_fqdn }}"
+    - "{{ ansible_hostname }}"
+
+- name: Remove empty root password
+  mysql_user:
+    name: "root"
+    host: ""
+    state: absent
+    login_user: "root"
+    login_password: "{{ mysql_root_password }}"
+
+- name: Remove the test database
+  mysql_db:
+    name: test
+    state: absent
+    login_user: "root"
+    login_password: "{{ mysql_root_password }}"
+
+- name: Stop service
+  service:
+    name:  "{{ mariadb_service }}"
+    state: "stopped"
+
+- name: List ib_logfile remnants
+  shell: ls -1 /var/lib/mysql/ib_logfile?
+  register: logfiles
+  changed_when: false
+
+- name: Remove ib_logfiles
+  file:
+    path:  "{{ item }}"
+    state: "absent"
+    force: "yes"
+  with_items:
+    - "{{ logfiles.stdout_lines }}"
+
+- name: Start service
+  service:
+    name:    "{{ mariadb_service }}"
+    state:   "started"
+    enabled: "yes"
+
+- name: Create Mysql Databases for Zabbix
+  mysql_db:
+    name: "{{ item }}"
+    state: present
+    login_user: "root"
+    login_password: "{{ mysql_root_password }}"
+  with_items:
+    - zabbix_db
+
+- name: Create Zabbix user
+  mysql_user:
+    name: "{{ db_zabbix_username }}"
+    password: "{{ db_zabbix_password }}"
+    priv: "{{ item.db }}.*:{{ item.privs }}"
+    append_privs: yes
+    state: present
+    login_user: root
+    login_password: "{{ mysql_root_password }}"
+  with_items:
+    - db: "zabbix_db"
+      privs: 'ALL'
+
+- name: Import Tables to the Zabbix Databse
+  mysql_db: 
+    name: zabbix_db
+    login_user: root
+    login_password: "{{ mysql_root_password }}"
+    target: /usr/share/doc/zabbix-server-mysql-3.4.12/create.sql.gz
+    state: import
+
+- name: Deploy zabbix.conf on /etc/httpd/conf.d
+  template:
+    src: zabbix.conf.j2
+    dest: /etc/httpd/conf.d/zabbix.conf
+    mode: 0644
+    owner: root
+    group: root
+
+- name: "Open zabbix-agent port"
+  firewalld:
+    port: 10050-10051/tcp
+    permanent: true
+    immediate: True
+    state: enabled
+
+- name: "Enable Apache in the firewalld"
+  firewalld:
+    service: http
+    permanent: true
+    immediate: True
+    state: enabled
+
+- name: Deploy Zabbix Server conf file
+  template:
+    src: zabbix_server.conf.j2
+    dest: /etc/zabbix/zabbix_server.conf
+    mode: 0640
+    owner: root
+    group: zabbix
+
+- name: "Allow zabbix_agent to start (SELinux)"
+  selinux_permissive:
+    name: zabbix_agent_t
+    permissive: true
+  become: yes
+
+- name: "Enable zabbix-agent at boot time"
+  systemd:
+    name: zabbix-agent
+    state: started
+    enabled: True
+  notify:
+    - restart zabbix-agent
+
+- name: "Enable zabbix-server at boot time"
+  systemd:
+    name: zabbix-server
+    state: started
+    enabled: True
+  notify:
+    - restart zabbix-server
+
+- name: "Enable Apache at boot time"
+  systemd:
+    name: httpd
+    state: started
+    enabled: True
+  notify:
+    - restart httpd

@@ -1,0 +1,31 @@
+---
+- name: restart zabbix-server
+  service:
+    name: zabbix-server
+    state: restarted
+
+- name: restart zabbix-agent
+  service:
+    name: zabbix-agent
+    state: restarted
+
+- name: mariadb-restart
+  service:
+    name: "{{ mariadb_service }}"
+    state: restarted
+
+- name: mariadb-stop
+  service:
+    name: "{{ mariadb_service }}"
+    state: stopped
+
+- name: mariadb-start
+  service:
+    name: "{{ mariadb_service }}"
+    state: started
+
+- name: restart httpd
+  service:
+    name: httpd
+    state: restarted
+
