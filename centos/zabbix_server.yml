@@ -1,8 +1,0 @@
----
-- hosts: zabbix-centos
-  name: Deploy and configure Zabbix Server
-  become: "{{ use_sudo|default(True) }}"
-  gather_facts: True
-  roles:
-    - repos
-    - zabbix-server

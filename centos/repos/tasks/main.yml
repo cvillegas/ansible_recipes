@@ -1,7 +1,0 @@
-- name: Deploy repo files
-  copy:
-    src: zabbix.repo
-    dest: /etc/yum.repos.d/zabbix.repo
-    owner: root
-    group: root
-    mode: 0644
