@@ -1,0 +1,16 @@
+- name: deploy a web application
+  hosts: target1, target2  
+
+  tasks: 
+    - name: install dependencies
+      apt: name= {{ item }} state=present force=yes 
+      with_items:
+        - python
+        - python-setuptools
+        - python-dev
+        - build-essential 
+        - python-pip
+        - python-mysqldb
+
+    - include: tasks/database.yml
+    - include: tasks/webserver.yml
