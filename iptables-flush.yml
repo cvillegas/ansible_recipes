@@ -1,0 +1,9 @@
+- hosts: testserver1  
+  become: true
+
+  tasks:
+    - name: flush de iptables
+      iptables:
+        chain: "{{ item }}"
+        flush: yes
+      with_items:  [ 'INPUT', 'FORWARD', 'OUTPUT' ]

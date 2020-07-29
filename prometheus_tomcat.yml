@@ -1,0 +1,85 @@
+- hosts: testserver1 
+  gather_facts: false
+  become: true
+
+
+  tasks:
+    - name: Create prometheus group
+      group:
+        name: prometheus
+        state: present
+
+    - name: Add the user prometehus
+      user:
+        name: prometheus
+        system: yes
+        shell: /sbin/nologin
+        group: prometheus
+        comment: Prometheus Node Exporter
+
+    - name: copy tarball
+      unarchive:
+        src: /tmp/metricas.tar.gz
+        dest: /tmp/
+
+    - name: Create directory lib
+      file:
+        path: /data/bono/lib/
+        state: directory
+        mode: 0755
+        owner: tomcat
+        group: tomcat
+
+    - name: copy jars to lib directory
+      copy:
+        remote_src: yes
+        src: "{{ item }}" 
+        dest: /data/bono/lib
+        owner: tomcat
+        group: tomcat
+      with_fileglob:
+        - /tmp/metricas/jar/*
+
+    - name: copy catalina.properties
+      copy:
+        remote_src: yes
+        src: /tmp/metricas/tomcat_conf/catalina.properties
+        dest: "/servers/tomcat{{item}}/conf/"
+        owner: tomcat
+        group: tomcat
+      with_items:
+        ["1","2"]
+
+    - name: copy context.xml
+      copy:
+        remote_src: yes
+        src: /tmp/metricas/tomcat_conf/context.xml
+        dest: "/servers/tomcat{{item}}/conf/"
+        owner: tomcat
+        group: tomcat
+      with_items:
+        ["1","2"]
+
+    - name: copy web.xml
+      copy:
+        remote_src: yes
+        src: /tmp/metricas/tomcat_conf/web.xml
+        dest: "/servers/tomcat{{item}}/conf/"
+        owner: tomcat
+        group: tomcat
+      with_items:
+        ["1","2"]
+
+    - name: copy WAR file 
+      copy:
+        remote_src: yes
+        src: /tmp/metricas/war/metrics.war
+        dest: "/servers/tomcat{{item}}/webapps/"
+        owner: tomcat
+        group: tomcat
+      with_items:
+        ["1","2"]
+
+
+
+

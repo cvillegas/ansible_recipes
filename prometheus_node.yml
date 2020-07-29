@@ -1,0 +1,55 @@
+- hosts: testserver1 
+  gather_facts: false
+  become: true
+
+
+  tasks:
+    - name: Create prometheus group
+      group:
+        name: prometheus
+        state: present
+
+    - name: Add the user prometehus
+      user:
+        name: prometheus
+        system: yes
+        shell: /sbin/nologin
+        group: prometheus
+        comment: Prometheus Node Exporter
+
+    - name: copy tarball
+      unarchive:
+        src: /tmp/node.tar.gz
+        dest: /tmp/
+
+    - name: move Node binary to /usr/local/bin
+      copy:
+        remote_src: yes
+        directory_mode: yes
+        src: /tmp/node_exporter-1.0.1.linux-amd64/node_exporter
+        dest: /usr/local/bin/
+        owner: root
+        group: root
+        mode: "0755"
+
+    - name: create node exporter service
+      copy:
+        src: /tmp/node_exporter.service
+        dest: /etc/systemd/system/
+        owner: root
+        group: root
+
+    - name: just force systemd to reread configs (2.4 and above)
+      systemd:
+        state: started
+        daemon_reload: yes
+        name: node_exporter
+
+    - name: enable service Node Exporter and ensure it is not masked
+      systemd:
+       name: node_exporter
+       enabled: yes
+       masked: no
+
+
+
