@@ -1,0 +1,54 @@
+[
+  {
+    "model": "permisos.rol",
+    "pk": "MEDIC",
+    "fields": {
+      "nombre": "M\u00e9dico",
+      "home": "medico:index",
+      "ruta": "/medico",
+      "avatar": "Roles/avatar/medico.png",
+      "activo": true,
+      "creada_en": "2020-04-01T11:26:01.577Z",
+      "actualizada_en": "2020-04-01T11:26:05.931Z"
+    }
+  },
+  {
+    "model": "permisos.rol",
+    "pk": "MINSA",
+    "fields": {
+      "nombre": "Ministerio de Salud",
+      "home": "minsa:index",
+      "ruta": "/minsa",
+      "avatar": "Roles/avatar/minsa.png",
+      "activo": true,
+      "creada_en": "2020-04-01T11:26:38.654Z",
+      "actualizada_en": "2020-04-01T11:26:47.928Z"
+    }
+  },
+  {
+    "model": "permisos.rol",
+    "pk": "PACIE",
+    "fields": {
+      "nombre": "Paciente",
+      "home": "paciente:index",
+      "ruta": "/paciente",
+      "avatar": "Roles/avatar/paciente.png",
+      "activo": true,
+      "creada_en": "2020-04-01T11:20:24.236Z",
+      "actualizada_en": "2020-04-01T11:20:30.035Z"
+    }
+  },
+  {
+    "model": "permisos.rol",
+    "pk": "SIN",
+    "fields": {
+      "nombre": "Sin rol",
+      "home": "paciente:index",
+      "ruta": "/invitado",
+      "avatar": "Roles/avatar/invitado.png",
+      "activo": false,
+      "creada_en": "2020-04-01T11:19:32.114Z",
+      "actualizada_en": "2020-04-01T11:19:39.267Z"
+    }
+  }
+]

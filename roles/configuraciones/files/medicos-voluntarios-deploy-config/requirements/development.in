@@ -1,0 +1,25 @@
+-r base.txt
+
+# Django
+# --------------------------
+django-debug-toolbar
+django-request-logging
+
+
+# Third party libraries
+# --------------------------
+ipython
+ipython-genutils
+ipdb
+better-exceptions
+
+
+# Code documentation
+# --------------------------
+sphinx
+sphinx_rtd_theme
+
+
+# Testing and code quality
+# --------------------------
+-r test.txt

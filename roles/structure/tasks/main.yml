@@ -1,0 +1,41 @@
+---
+# tasks file for structure
+- name: Creacion de directorio htdocs
+  file: 
+    path: /var/www/dev.medicosvoluntarios.pe/htdocs
+    state: directory 
+    mode: '0755'   
+
+- name: Creacion de directorio run
+  file: 
+    path: /var/www/dev.medicosvoluntarios.pe/run
+    state: directory
+    mode: '0755'
+
+- name: Creacion de directorio conf
+  file: 
+    path: /var/www/dev.medicosvoluntarios.pe/conf
+    state: directory
+    mode: '0755'
+
+- name: Creacion de directorio de logs
+  file:
+    path: /var/www/dev.medicosvoluntarios.pe/logs
+    state: directory
+    mode: '0755'
+
+- name: Permisos para directorio web 
+  file: 
+    path: /var/www/dev.medicosvoluntarios.pe
+    state: directory
+    recurse: yes
+    owner: ubuntu
+    group: ubuntu 
+
+- name: Creacion de Repositorio local 
+  file:
+    path: /var/git/repo
+    state: directory
+    mode: '0755'
+
+

@@ -1,0 +1,17 @@
+- hosts: ora_test
+  become: true
+  gather_facts: False
+
+  handlers:
+    - name: reload apache
+      service: name=httpd state=reloaded
+
+  tasks:  
+    - name: Detectar parametros en httpd.conf 
+      replace: 
+        path: /etc/httpd/conf.d/bono.conf 
+        regexp: 'ajp://10.10.3.3'
+        replace: 'ajp://10.10.3.8'
+        backup: yes
+      notify: reload apache
+

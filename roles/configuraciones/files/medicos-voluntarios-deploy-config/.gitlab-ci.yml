@@ -1,0 +1,59 @@
+stages:
+  - lint
+  - test
+  - deploy
+
+variables:
+  POSTGRES_USER: 'postgres'
+  POSTGRES_PASSWORD: 'postgres'
+  POSTGRES_DB: 'testdb'
+  POSTGRES_HOST_AUTH_METHOD: trust
+
+image: python:3.8
+
+
+code-style:
+  stage: lint
+  before_script:
+    - pip install -r requirements/test.txt
+  script:
+    - isort -c
+    - black --check .
+    - pylint --load-plugins pylint_django apps config
+
+
+pytest:
+  stage: test
+  services:
+    - name: kartoza/postgis:12.0
+      alias: postgis
+  tags:
+    - docker
+  variables:
+    DATABASE_URL: pgsql://$POSTGRES_USER:$POSTGRES_PASSWORD@postgis:5432/$POSTGRES_DB
+
+  before_script:
+    - pip install -r requirements/test.txt
+    - apt-get update -y && apt-get install libgdal20 -y
+
+  script:
+    - pytest
+
+deploy:
+  stage: deploy
+  image: "debian:buster"
+  before_script:
+    - export DEBIAN_FRONTEND=noninteractive
+    - apt-get update && apt-get install rsync openssh-client -y
+    - mkdir -p ~/.ssh
+    - eval $(ssh-agent -s)
+    - echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config
+    - chmod 600 $STAGING_DEPLOY_PRIV_KEY
+    - ssh-add $STAGING_DEPLOY_PRIV_KEY
+  script:
+    - deploy/deploy.sh
+
+  only:
+    refs:
+      - master
+      - schedules

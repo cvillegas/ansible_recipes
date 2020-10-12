@@ -1,4 +1,4 @@
-- hosts: testserver1  
+- hosts: webs, apps, solar 
   become: true
 
   tasks:

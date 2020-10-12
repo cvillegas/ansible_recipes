@@ -1,0 +1,12 @@
+---
+- hosts: dev-bastion
+  gather_facts: False
+  become: yes
+
+  tasks:
+    - name: Instalando paquetes necesarios
+      apt: 
+        name:
+        - nmap 
+        state: latest 
+

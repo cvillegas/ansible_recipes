@@ -1,0 +1,46 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    {% block meta %}{% endblock meta %}
+    <title>{% block title %}{% endblock title %}</title>
+    <link rel="shortcut icon" href="{% static 'images/login.png' %}" />
+    <link rel="stylesheet" href="{% static 'style/bootstrap.min.css' %}" />
+    <link rel="stylesheet" href="{% static 'style/materialdesignicons.min.css' %}" />
+    {% block css %}{% endblock css %}
+    <link rel="stylesheet" href="{% static 'style/style.css' %}" />
+    <link rel="stylesheet" href="{% static 'style/default.css' %}" />
+    <link rel="stylesheet" href="{% static 'style/css.css' %}" />
+
+    {% block style %}{% endblock style %}
+
+</head>
+<body style="overflow: visible;">
+    <!-- Loader -->
+    <div id="preloader" style="display: none;">
+        <div id="status" style="display: none;">
+            <div class="spinner">
+                <div class="double-bounce1"></div>
+                <div class="double-bounce2"></div>
+            </div>
+        </div>
+    </div>
+    <!-- Loader -->
+    {% block menu %}
+    <div class="back-to-home rounded d-none d-sm-block">
+        <a href="/" class="text-white rounded d-inline-block text-center">
+            <i class="mdi mdi-home"></i>
+        </a>
+    </div>
+    {% endblock menu %}
+    {% block content %}
+    {% endblock content %}
+
+    <!-- javascript -->
+    {% block js %}{% endblock js %}
+    {% block script %}{% endblock script %}
+</body>
+</html>

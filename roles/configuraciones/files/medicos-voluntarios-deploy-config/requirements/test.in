@@ -1,0 +1,16 @@
+-r base.txt
+# Code Quality
+# --------------------------
+black
+isort
+pylint
+pylint-django
+
+
+# Testing
+# --------------------------
+factory-boy
+mypy
+pytest
+pytest-django
+freezegun

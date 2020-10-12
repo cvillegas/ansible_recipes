@@ -1,0 +1,5 @@
+[tool.black]
+line_length = 120
+exclude = 'migrations'
+trailing_comma = true
+multi_line_output = 3

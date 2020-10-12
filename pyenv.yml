@@ -1,0 +1,6 @@
+---
+- hosts: localhost                                                          
+  tasks:                                                                    
+    - name: Printing Fact Variables                                         
+      debug:                                                                
+        msg: "The value of OS Family is {{ansible_os_family}}"  

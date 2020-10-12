@@ -1,0 +1,34 @@
+---
+# tasks file for pyenv
+
+- name: Clonar repositorio
+  git:
+    repo: https://github.com/pyenv/pyenv.git 
+    dest: "/home/{{ usuario_sistema }}/.pyenv"
+
+
+- name: Permisos para pyenv
+  file:
+    path: "/home/{{ usuario_sistema }}/.pyenv"
+    state: directory
+    recurse: yes
+    owner: "{{ usuario_sistema }}"
+    group: "{{ usuario_sistema }}"
+
+- name: Insert pyenv var in bashrc 
+  lineinfile:
+    path: "/home/{{ usuario_sistema}}/.bashrc"
+    line: export PYENV_ROOT="$HOME/.pyenv"
+
+- name: Insert pyenv PATH in bashrc
+  lineinfile:
+    path: "/home/{{ usuario_sistema}}/.bashrc"
+    line: export PATH="$PYENV_ROOT/bin:$PATH"
+
+- name: Add configurations to ~/.bashrc
+  lineinfile:
+    path: "/home/{{ usuario_sistema}}/.bashrc"
+    line: 'eval "$(pyenv init -)"'
+
+- name: install python
+  shell: "pyenv install {{ python_version}}"

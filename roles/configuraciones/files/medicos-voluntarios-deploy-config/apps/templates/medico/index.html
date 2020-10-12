@@ -1,0 +1,58 @@
+{% extends 'medico/base.html' %}
+
+{% block title %}
+    Médico
+{% endblock title %}
+
+{% block content %}
+    <div class="border-bottom pb-4">
+        <div class="row">
+            <div class="table-responsive">
+                <table class="table mb-0 table-center">
+                    <thead>
+                        <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">Nombre completo</th>
+                            <th scope="col">Fecha</th>
+                            <th scope="col">Sintomas</th>
+                            <th scope="col">---</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for paciente in pacientes %}
+                        <tr>
+                            <th scope="row">{{ paciente.id }}</th>
+                            <th>
+                                <p class="mt-2 mb-0 font-weight-normal">
+                                    {{ paciente.paciente.nombre_completo }}
+                                </p>
+                            </th>
+                            <th>
+                                <p class="mt-2 mb-0 font-weight-normal">
+                                    {{ paciente.creada_en }}
+                                </p>
+                            </th>
+                            <td class="text-success">
+                                <p class="mt-2 mb-0 font-weight-normal">
+                                   {{ paciente.detalle_dolencias | truncatechars:50 }}
+                                </p>
+                            </td>
+                            <td>
+                                {% if paciente.medico_asignado %}
+                                <a href="{% url 'medico:consulta_detalle' paciente.id %}" class="btn btn-warning">
+                                    Pendiente
+                                </a>
+                                {% else %}
+                                <a href="{% url 'medico:consulta_detalle' paciente.id %}" class="btn btn-primary">
+                                    Ver detalle
+                                </a>
+                                {% endif %}
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+{% endblock content %}

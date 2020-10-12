@@ -1,0 +1,4 @@
+entorno: dev
+dominio: medicosvoluntarios.pe
+usuario_sistema: ubuntu 
+python_version: 3.8.2 

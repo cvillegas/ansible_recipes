@@ -1,0 +1,8 @@
+{% if registrado %}
+<p>¡Gracias! Su registro se efectuó correctamente.</p>
+{% else %}
+<form action="" method="post">
+{{ form.as_p }}
+<p><input type="submit" value="Registrarme" /></p>
+</form>
+{% endif %}

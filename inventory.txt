@@ -1,0 +1,16 @@
+[test:vars]
+ansible_ssh_private_key_file=voluntarios_aws_pub.pem
+
+[test]
+dev-webserver ansible_host=ec2-3-22-199-130.us-east-2.compute.amazonaws.com
+dev-bastion ansible_host=ec2-18-188-89-52.us-east-2.compute.amazonaws.com
+dev-test ansible_host=ec2-3-12-166-120.us-east-2.compute.amazonaws.com
+
+[aws:vars]
+ansible_ssh_private_key_file=prod_voluntarios.pem
+
+[aws]
+prod-webserver ansible_host=ec2-52-202-65-72.compute-1.amazonaws.com
+prod-bastion ansible_host=ec2-3-90-7-108.compute-1.amazonaws.com
+prod-test ansible_host=ec2-52-207-212-152.compute-1.amazonaws.com
+

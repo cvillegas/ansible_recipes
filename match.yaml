@@ -1,0 +1,17 @@
+- hosts: vm-app01 
+  gather_facts: false
+  become: true
+
+  tasks:
+    - name: cambiar jvm en server.xml
+      replace:
+        path: /servers/tomcat{{item}}/conf/server.xml
+        regexp: "jvm1"
+        replace: "jvm2{{item}}" 
+      with_items:
+        ["5","6","7","8"]
+
+
+
+
+

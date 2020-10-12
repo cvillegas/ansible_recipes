@@ -1,0 +1,82 @@
+- hosts: apps 
+  gather_facts: false
+  become: true
+
+  tasks:
+    - name: Create target directories
+      file: 
+        path: /servers/{{item}}
+        state: directory 
+        mode: 0755
+        owner: tomcat
+        group: tomcat
+      with_items:
+        ["tomcat9","tomcat10","tomcat11","tomcat12","tomcat13","tomcat14","tomcat15","tomcat16"]
+
+    - name: copiar Tomcat 
+      copy: 
+        remote_src: yes
+        directory_mode: yes
+        src: /servers/tomcat1/
+        dest: /servers/{{item}}/
+        owner: tomcat
+        group: tomcat
+      with_items: 
+        ["tomcat9","tomcat10","tomcat11","tomcat12","tomcat13","tomcat14","tomcat15","tomcat16"]
+
+    - name: cleaning directory work
+      file:
+        path: /servers/{{item}}/work/
+        state: absent
+      with_items:
+        ["tomcat9","tomcat10","tomcat11","tomcat12","tomcat13","tomcat14","tomcat15","tomcat16"]
+
+    - name: cleaning directory logs
+      file:
+        path: /servers/{{item}}/logs/
+        state: absent
+      with_items:
+        ["tomcat9","tomcat10","tomcat11","tomcat12","tomcat13","tomcat14","tomcat15","tomcat16"]
+
+    - name: cleaning directory temp
+      file:
+        path: /servers/{{item}}/temp/
+        state: absent
+      with_items:
+        ["tomcat9","tomcat10","tomcat11","tomcat12","tomcat13","tomcat14","tomcat15","tomcat16"]
+
+    - name: Create directory work
+      file: 
+        path: /servers/{{item}}/work/
+        state: directory 
+        mode: 0755
+        owner: tomcat
+        group: tomcat
+      with_items:
+        ["tomcat9","tomcat10","tomcat11","tomcat12","tomcat13","tomcat14","tomcat15","tomcat16"]
+
+    - name: Create directory logs
+      file: 
+        path: /servers/{{item}}/logs/
+        state: directory 
+        mode: 0755
+        owner: tomcat
+        group: tomcat
+      with_items:
+        ["tomcat9","tomcat10","tomcat11","tomcat12","tomcat13","tomcat14","tomcat15","tomcat16"]
+
+    - name: Create directory temp
+      file: 
+        path: /servers/{{item}}/temp/
+        state: directory 
+        mode: 0755
+        owner: tomcat
+        group: tomcat
+      with_items:
+        ["tomcat9","tomcat10","tomcat11","tomcat12","tomcat13","tomcat14","tomcat15","tomcat16"]
+
+
+
+
+
+

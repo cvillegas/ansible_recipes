@@ -1,0 +1,57 @@
+---
+# tasks file for clonar_repo
+
+- name: Agregar path en include de Supervisor 
+  lineinfile:
+    path: /etc/supervisor/supervisord.conf
+    regexp: '^files='
+    line: /etc/supervisor/conf.d/*.conf  /var/www/*/conf/supervisor.conf 
+
+- name: Copiar configuracion Nginx al directorio web
+  copy:
+    src: files/conf_nginx.conf 
+    dest: /var/www/dev.medicosvoluntarios.pe/conf/nginx.conf
+    owner: ubuntu
+    group: ubuntu
+    mode: '0644' 
+
+- name: Copiar configuracion Supervisor al directorio web
+  copy:
+    src: files/conf_supervisor.conf
+    dest: /var/www/dev.medicosvoluntarios.pe/conf/supervisor.conf
+    owner: ubuntu
+    group: ubuntu
+    mode: '0644'
+
+- name: Copiar script Gunicorn
+  copy:
+    src: files/run_gunicorn_start.sh
+    dest: /var/www/dev.medicosvoluntarios.pe/run/gunicorn_start.sh
+    owner: ubuntu
+    group: ubuntu
+    mode: '0744'
+
+- name: Copiar script Restart Web
+  copy:
+    src: files/run_restart_web_app.sh
+    dest: /var/www/dev.medicosvoluntarios.pe/run/restart_web_app.sh
+    owner: ubuntu
+    group: ubuntu
+    mode: '0744'
+
+- name: Copiar script deployment 
+  copy:
+    src: files/run_medicos_deploy.sh
+    dest: /var/www/dev.medicosvoluntarios.pe/run/medicos_deploy.sh
+    owner: ubuntu
+    group: ubuntu
+    mode: '0744'
+
+- name: Create a symbolic link
+  file:
+    src: /var/www/dev.medicosvoluntarios.pe/run/medicos_deploy.sh 
+    dest: /var/git/repo/dev.medicosvoluntarios.git/hooks/post-receive
+    owner: ubuntu
+    group: ubuntu
+    state: link
+

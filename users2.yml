@@ -1,0 +1,89 @@
+- hosts: db 
+  become: true
+
+  tasks:
+    - name: Add the user mgil
+      user:
+        name: mgil
+        password: "{{ 'OsinergMIN2020' | password_hash('sha512') }}"
+        shell: /bin/bash
+        comment: Martin Gil 
+        groups: wheel
+        append: yes
+        generate_ssh_key: yes
+        ssh_key_file: .ssh/id_rsa        
+        update_password: on_create
+      register: mgil
+    - name: Force password change
+      shell: chage -d 0 mgil 
+      when: mgil.changed  
+
+    - name: Add the user jhuamani
+      user:
+        name: jhuamani
+        password: "{{ 'OsinergMIN2020' | password_hash('sha512') }}"
+        shell: /bin/bash
+        comment: Juan Huamani 
+        groups: wheel
+        append: yes
+        generate_ssh_key: yes
+        ssh_key_file: .ssh/id_rsa        
+        update_password: on_create
+      register: jhuamani
+    - name: Force password change
+      shell: chage -d 0 jhuamani 
+      when: jhuamani.changed  
+
+    - name: Add the user jtovar
+      user:
+        name: jtovar
+        password: "{{ 'OsinergMIN2020' | password_hash('sha512') }}"
+        shell: /bin/bash
+        comment: J Tovar 
+        groups: wheel
+        append: yes
+        generate_ssh_key: yes
+        ssh_key_file: .ssh/id_rsa        
+        update_password: on_create
+      register: jtovar
+    - name: Force password change
+      shell: chage -d 0 jtovar 
+      when: jtovar.changed  
+
+    - name: Add the user proytitel
+      user:
+        name: proytitel
+        password: "{{ 'OsinergMIN2020' | password_hash('sha512') }}"
+        shell: /bin/bash
+        comment: Proytitel 
+        groups: wheel
+        append: yes
+        generate_ssh_key: yes
+        ssh_key_file: .ssh/id_rsa        
+        update_password: on_create
+      register: proytitel
+    - name: Force password change
+      shell: chage -d 0 proytitel 
+      when: proytitel.changed  
+
+    - name: Add the user evasquez
+      user:
+        name: evasquez
+        password: "{{ 'OsinergMIN2020' | password_hash('sha512') }}"
+        shell: /bin/bash
+        comment: E Vasquez 
+        groups: wheel
+        append: yes
+        generate_ssh_key: yes
+        ssh_key_file: .ssh/id_rsa        
+        update_password: on_create
+      register: evasquez
+    - name: Force password change
+      shell: chage -d 0 evasquez 
+      when: evasquez.changed  
+
+    - name: sudo without password for wheel group
+      copy:
+        content: '%wheel ALL=(ALL:ALL) NOPASSWD:ALL'
+        dest: /etc/sudoers.d/wheel_nopasswd
+        mode: 0440

@@ -1,0 +1,34 @@
+# Django
+# --------------------------
+argon2-cffi
+django
+django-environ
+django-addanother
+django-autocomplete-light
+django-countries
+django-dotenv
+django-extensions
+django-filter
+django-phonenumber-field
+django-querysetsequence
+
+
+# Django REST framework
+# --------------------------
+djangorestframework
+djangorestframework-gis
+coreapi
+drf-yasg
+
+
+# Third party libraries
+# --------------------------
+humanfriendly
+jsonfield2
+Pillow
+phonenumbers
+python-baseconv
+python-dateutil
+requests
+rfc3339-validator
+psycopg2

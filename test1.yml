@@ -1,0 +1,14 @@
+---
+- hosts: prod-test
+  become: True 
+  vars_files:
+    - vars/configuracion.yml
+
+  roles: 
+#    - timezone
+#    - basics
+    - pyenv
+#    - structure 
+#    - clonar_repo
+#    - configuraciones
+

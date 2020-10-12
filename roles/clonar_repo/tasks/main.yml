@@ -1,0 +1,15 @@
+---
+# tasks file for clonar_repo
+- name: Clonar repositorio 
+  git:
+    repo: https://cvillegas:4fZmNpigdgEr8kD_S35P@gitlab.com/voluntarios.dev/medicos-voluntarios.git
+    dest: /var/git/repo/dev.medicosvoluntarios.git
+    bare: yes 
+
+- name: Permisos para repositorios git  
+  file:
+    path: /var/git/repo
+    state: directory
+    recurse: yes
+    owner: ubuntu
+    group: ubuntu

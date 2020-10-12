@@ -1,0 +1,33 @@
+---
+# tasks file for basics
+- name: Update and upgrade apt packages
+  apt:
+    update_cache: yes
+    upgrade: safe
+
+- name: Install basic packages 
+  apt:
+    name: "{{ item }}"
+    state: latest 
+  with_items: 
+      - build-essential
+      - ack
+      - tree
+      - libssl-dev
+      - zlib1g-dev
+      - libbz2-dev
+      - libreadline-dev
+      - libsqlite3-dev
+      - llvm
+      - libncurses5-dev
+      - libncursesw5-dev
+      - tk-dev
+      - libffi-dev
+      - liblzma-dev
+      - redis
+      - python-psycopg2
+      - libpq-dev
+      - libproj-dev
+      - gdal-bin
+
+

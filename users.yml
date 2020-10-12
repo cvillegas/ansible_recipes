@@ -1,0 +1,63 @@
+- hosts: bastion
+  become: true
+
+  tasks:
+    - name: Add the user mgil
+      user:
+        name: mgil
+        shell: /bin/bash
+        comment: Martin Gil 
+        group: wheel
+        append: yes
+        generate_ssh_key: yes
+        ssh_key_file: .ssh/id_rsa        
+
+    - name: Add the user jhuamani
+      user:
+        name: jhuamani
+        shell: /bin/bash
+        comment: Juan Huamani 
+        group: wheel
+        append: yes
+        generate_ssh_key: yes
+        ssh_key_bits: 2048
+        ssh_key_file: .ssh/id_rsa        
+
+    - name: Add the user jtovar
+      user:
+        name: jtovar
+        shell: /bin/bash
+        comment: Tovar
+        group: wheel
+        append: yes
+        generate_ssh_key: yes
+        ssh_key_bits: 2048
+        ssh_key_file: .ssh/id_rsa        
+
+    - name: Add the user proytitel
+      user:
+        name: proytitel
+        shell: /bin/bash
+        comment: 
+        group: wheel
+        append: yes
+        generate_ssh_key: yes
+        ssh_key_bits: 2048
+        ssh_key_file: .ssh/id_rsa        
+
+    - name: Add the user evasquez
+      user:
+        name: evasquez
+        shell: /bin/bash
+        comment: Vasquez 
+        group: wheel
+        append: yes
+        generate_ssh_key: yes
+        ssh_key_bits: 2048
+        ssh_key_file: .ssh/id_rsa        
+
+    - name: sudo without password for wheel group
+      copy:
+        content: '%wheel ALL=(ALL:ALL) NOPASSWD:ALL'
+        dest: /etc/sudoers.d/wheel_nopasswd
+        mode: 0440
