@@ -32,7 +32,7 @@ django-filter==2.2.0      # via -r base.txt, -r test.txt
 django-phonenumber-field==4.0.0  # via -r base.txt, -r test.txt
 django-querysetsequence==0.12  # via -r base.txt, -r test.txt
 django-request-logging==0.7.1  # via -r development.in
-django==3.0.5             # via -r base.txt, -r test.txt, django-addanother, django-debug-toolbar, django-filter, django-phonenumber-field, django-querysetsequence, django-request-logging, djangorestframework, drf-yasg, jsonfield2
+django==3.0.7             # via -r base.txt, -r test.txt, django-addanother, django-debug-toolbar, django-filter, django-phonenumber-field, django-querysetsequence, django-request-logging, djangorestframework, drf-yasg, jsonfield2
 djangorestframework-gis==0.15  # via -r base.txt, -r test.txt
 djangorestframework==3.11.0  # via -r base.txt, -r test.txt, djangorestframework-gis, drf-yasg
 docutils==0.16            # via sphinx

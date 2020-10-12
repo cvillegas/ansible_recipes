@@ -23,7 +23,7 @@ django-phonenumber-field==4.0.0  # via -r base.txt
 django-querysetsequence==0.12  # via -r base.txt
 django-redis==4.11.0      # via -r production.in
 django-sendgrid-v5==0.8.1  # via -r production.in
-django==3.0.5             # via -r base.txt, django-addanother, django-filter, django-phonenumber-field, django-querysetsequence, django-redis, django-sendgrid-v5, djangorestframework, drf-yasg, jsonfield2
+django==3.0.7             # via -r base.txt, django-addanother, django-filter, django-phonenumber-field, django-querysetsequence, django-redis, django-sendgrid-v5, djangorestframework, drf-yasg, jsonfield2
 djangorestframework-gis==0.15  # via -r base.txt
 djangorestframework==3.11.0  # via -r base.txt, djangorestframework-gis, drf-yasg
 drf-yasg==1.17.1          # via -r base.txt
