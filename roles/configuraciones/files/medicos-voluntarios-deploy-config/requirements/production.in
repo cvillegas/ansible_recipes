@@ -1,8 +1,0 @@
--r base.txt
-# Production
-# --------------------------
-django-sendgrid-v5
-gunicorn
-django-redis
-redis
-wheel

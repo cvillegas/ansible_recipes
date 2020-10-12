@@ -1,9 +1,0 @@
-# Place this file at /etc/systemd/system/medicos.socket
-[Unit]
-Description=medicos socket
-
-[Socket]
-ListenStream=/run/medicos.sock
-
-[Install]
-WantedBy=sockets.target
